@@ -1,59 +1,59 @@
 {
-    "name": "typescript-to-lua",
-    "version": "0.23.0",
-    "description": "A generic TypeScript to Lua transpiler. Write your code in TypeScript and publish Lua!",
-    "repository": "https://github.com/TypeScriptToLua/TypeScriptToLua",
-    "license": "MIT",
-    "keywords": [
-        "typescript",
-        "lua",
-        "tstl",
-        "transpiler"
-    ],
-    "files": [
-        "dist/**/*.js",
-        "dist/**/*.lua",
-        "dist/**/*.ts"
-    ],
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
-    "scripts": {
-        "build": "tsc -p tsconfig.json && npm run build-lualib",
-        "build-lualib": "ts-node ./build_lualib.ts",
-        "pretest": "npm run lint && ts-node --transpile-only ./build_lualib.ts",
-        "test": "jest",
-        "lint": "npm run lint:tslint && npm run lint:prettier",
-        "lint:prettier": "prettier --check \"**/*.{js,ts,yml,json,md}\" || (echo 'Run `npm run fix:prettier` to fix it.' && exit 1)",
-        "lint:tslint": "tslint -p . && tslint -p test && tslint -p src/lualib",
-        "fix:prettier": "prettier --check --write \"**/*.{js,ts,yml,json,md}\"",
-        "release-major": "npm version major",
-        "release-minor": "npm version minor",
-        "release-patch": "npm version patch",
-        "preversion": "npm run build && npm test",
-        "postversion": "git push && git push --tags"
-    },
-    "bin": {
-        "tstl": "./dist/tstl.js"
-    },
-    "engines": {
-        "node": ">=8.5.0"
-    },
-    "dependencies": {
-        "resolve": "^1.11.0",
-        "source-map": "^0.7.3",
-        "typescript": "^3.5.2"
-    },
-    "devDependencies": {
-        "@types/glob": "^7.1.1",
-        "@types/jest": "^24.0.15",
-        "@types/node": "^11.13.14",
-        "@types/resolve": "0.0.8",
-        "fengari": "^0.1.4",
-        "jest": "^24.8.0",
-        "jest-circus": "^24.8.0",
-        "prettier": "^1.18.2",
-        "ts-jest": "^24.0.2",
-        "ts-node": "^7.0.1",
-        "tslint": "^5.17.0"
-    }
+  "name": "typescript-to-lua",
+  "version": "0.23.2",
+  "description": "A generic TypeScript to Lua transpiler. Write your code in TypeScript and publish Lua!",
+  "repository": "https://github.com/TypeScriptToLua/TypeScriptToLua",
+  "license": "MIT",
+  "keywords": [
+    "typescript",
+    "lua",
+    "tstl",
+    "transpiler"
+  ],
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.lua",
+    "dist/**/*.ts"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json && npm run build-lualib",
+    "build-lualib": "ts-node ./build_lualib.ts",
+    "pretest": "npm run lint && ts-node --transpile-only ./build_lualib.ts",
+    "test": "jest",
+    "lint": "npm run lint:tslint && npm run lint:prettier",
+    "lint:prettier": "prettier --check \"**/*.{js,ts,yml,json,md}\" || (echo 'Run `npm run fix:prettier` to fix it.' && exit 1)",
+    "lint:tslint": "tslint -p . && tslint -p test && tslint -p src/lualib",
+    "fix:prettier": "prettier --check --write \"**/*.{js,ts,yml,json,md}\"",
+    "release-major": "npm version major",
+    "release-minor": "npm version minor",
+    "release-patch": "npm version patch",
+    "preversion": "npm run build && npm test",
+    "postversion": "git push && git push --tags"
+  },
+  "bin": {
+    "tstl": "./dist/tstl.js"
+  },
+  "engines": {
+    "node": ">=8.5.0"
+  },
+  "dependencies": {
+    "resolve": "^1.11.0",
+    "source-map": "^0.7.3",
+    "typescript": "^3.5.2"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.1",
+    "@types/jest": "^24.0.15",
+    "@types/node": "^11.13.14",
+    "@types/resolve": "0.0.8",
+    "fengari": "^0.1.4",
+    "jest": "^24.8.0",
+    "jest-circus": "^24.8.0",
+    "prettier": "^1.18.2",
+    "ts-jest": "^24.0.2",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.17.0"
+  }
 }

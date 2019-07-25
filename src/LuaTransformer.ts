@@ -318,7 +318,7 @@ export class LuaTransformer {
                 return undefined;
             }
 
-            const moduleRequire = this.createModuleRequire(statement.moduleSpecifier as ts.StringLiteral);
+            const moduleRequire = this.createModuleInclude(statement.moduleSpecifier as ts.StringLiteral);
             const tempModuleIdentifier = tstl.createIdentifier("__TSTL_export");
 
             const declaration = tstl.createVariableDeclarationStatement(tempModuleIdentifier, moduleRequire);
@@ -372,7 +372,7 @@ export class LuaTransformer {
 
         const moduleSpecifier = statement.moduleSpecifier as ts.StringLiteral;
         const importPath = moduleSpecifier.text.replace(new RegExp('"', "g"), "");
-        const requireCall = this.createModuleRequire(statement.moduleSpecifier as ts.StringLiteral, shouldResolve);
+        const requireCall = this.createModuleInclude(statement.moduleSpecifier as ts.StringLiteral, shouldResolve);
 
         if (!statement.importClause) {
             result.push(tstl.createExpressionStatement(requireCall));
@@ -462,8 +462,18 @@ export class LuaTransformer {
         const modulePathString = resolveModule
             ? this.getImportPath(moduleSpecifier.text.replace(new RegExp('"', "g"), ""), moduleSpecifier)
             : moduleSpecifier.text;
+
         const modulePath = tstl.createStringLiteral(modulePathString);
         return tstl.createCallExpression(tstl.createIdentifier("require"), [modulePath], moduleSpecifier);
+    }
+
+    protected createModuleInclude(moduleSpecifier: ts.StringLiteral, resolveModule = true): tstl.CallExpression {
+        const modulePathString = resolveModule
+            ? this.getImportPath(moduleSpecifier.text.replace(new RegExp('"', "g"), ""), moduleSpecifier)
+            : moduleSpecifier.text;
+
+        const modulePath = tstl.createStringLiteral(modulePathString);
+        return tstl.createCallExpression(tstl.createIdentifier("include"), [modulePath], moduleSpecifier);
     }
 
     protected validateClassElement(element: ts.ClassElement): void {
@@ -5131,6 +5141,7 @@ export class LuaTransformer {
         const rootDir = this.options.rootDir ? path.resolve(this.options.rootDir) : path.resolve(".");
         const absoluteImportPath = path.format(path.parse(this.getAbsoluteImportPath(relativePath)));
         const absoluteRootDirPath = path.format(path.parse(rootDir));
+
         if (absoluteImportPath.includes(absoluteRootDirPath)) {
             return this.formatPathToLuaPath(absoluteImportPath.replace(absoluteRootDirPath, "").slice(1));
         } else {
@@ -5146,9 +5157,12 @@ export class LuaTransformer {
         filePath = filePath.replace(/\.json$/, "");
         if (process.platform === "win32") {
             // Windows can use backslashes
-            filePath = filePath.replace(/\.\\/g, "").replace(/\\/g, ".");
+            filePath = filePath.replace(/\.\\/g, "").replace(/\\/g, "/");
         }
-        return filePath.replace(/\.\//g, "").replace(/\//g, ".");
+        return filePath
+            .replace(/\.\//g, "")
+            .replace(/\//g, "/")
+            .concat(".lua");
     }
 
     protected createSelfIdentifier(tsOriginal?: ts.Node): tstl.Identifier {
