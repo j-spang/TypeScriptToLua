@@ -1,6 +1,6 @@
 {
   "name": "typescript-to-lua",
-  "version": "0.23.2",
+  "version": "0.27.1",
   "description": "A generic TypeScript to Lua transpiler. Write your code in TypeScript and publish Lua!",
   "repository": "https://github.com/TypeScriptToLua/TypeScriptToLua",
   "license": "MIT",
@@ -41,7 +41,7 @@
   "dependencies": {
     "resolve": "^1.11.0",
     "source-map": "^0.7.3",
-    "typescript": "^3.5.2"
+    "typescript": "3.5.x"
   },
   "devDependencies": {
     "@types/glob": "^7.1.1",

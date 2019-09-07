@@ -7,20 +7,8 @@ const getLuaTargetName = (version: LuaTarget) => (version === LuaTarget.LuaJIT ?
 export const CouldNotCast = (castName: string) =>
     new Error(`Failed to cast all elements to expected type using ${castName}.`);
 
-export const DefaultImportsNotSupported = (node: ts.Node) =>
-    new TranspileError(`Default Imports are not supported, please use named imports instead!`, node);
-
-export const ForbiddenEllipsisDestruction = (node: ts.Node) =>
-    new TranspileError(`Ellipsis destruction is not allowed.`, node);
-
 export const ForbiddenForIn = (node: ts.Node) =>
     new TranspileError(`Iterating over arrays with 'for ... in' is not allowed.`, node);
-
-export const ForbiddenLuaTableSetExpression = (node: ts.Node) =>
-    new TranspileError(
-        `A '@luaTable' object's 'set()' method can only be used as a Statement, not an Expression.`,
-        node
-    );
 
 export const ForbiddenLuaTableNonDeclaration = (node: ts.Node) =>
     new TranspileError(`Classes with the '@luaTable' decorator must be declared.`, node);
@@ -33,13 +21,6 @@ export const InvalidInstanceOfLuaTable = (node: ts.Node) =>
 
 export const ForbiddenLuaTableUseException = (description: string, node: ts.Node) =>
     new TranspileError(`Invalid @luaTable usage: ${description}`, node);
-
-export const HeterogeneousEnum = (node: ts.Node) =>
-    new TranspileError(
-        `Invalid heterogeneous enum. Enums should either specify no member values, ` +
-            `or specify values (of the same type) for all members.`,
-        node
-    );
 
 export const InvalidDecoratorArgumentNumber = (name: string, got: number, expected: number, node: ts.Node) =>
     new TranspileError(`${name} expects ${expected} argument(s) but got ${got}.`, node);
@@ -90,10 +71,14 @@ export const MissingFunctionName = (declaration: ts.FunctionLikeDeclaration) =>
 export const MissingMetaExtension = (node: ts.Node) =>
     new TranspileError(`@metaExtension requires the extension of the metatable class.`, node);
 
-export const MissingSourceFile = () => new Error("Expected transformer.sourceFile to be set, but it isn't.");
+export const NonFlattenableDestructure = (node: ts.Node) =>
+    new TranspileError(`This node cannot be destructured using a standard Lua assignment statement.`, node);
 
 export const UndefinedFunctionDefinition = (functionSymbolId: number) =>
     new Error(`Function definition for function symbol ${functionSymbolId} is undefined.`);
+
+export const UnsupportedForInVariable = (initializer: ts.Node) =>
+    new TranspileError(`Unsuppored for-in variable kind.`, initializer);
 
 export const UndefinedScope = () => new Error("Expected to pop a scope, but found undefined.");
 
@@ -101,9 +86,6 @@ export const UndefinedTypeNode = (node: ts.Node) => new TranspileError("Failed t
 
 export const UnknownSuperType = (node: ts.Node) =>
     new TranspileError("Unable to resolve type of super expression.", node);
-
-export const UnsupportedDefaultExport = (node: ts.Node) =>
-    new TranspileError(`Default exports are not supported.`, node);
 
 export const UnsupportedImportType = (node: ts.Node) => new TranspileError(`Unsupported import type.`, node);
 

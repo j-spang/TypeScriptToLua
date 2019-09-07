@@ -1,5 +1,51 @@
 # Changelog
 
+## 0.27.0
+
+- Added support for [array and object destructuring with rest](https://basarat.gitbooks.io/typescript/content/docs/destructuring.html#object-destructuring-with-rest).
+- Changed Map and Set implementations to they preserve insertion order when iterated over, as specified by ECMAScript.
+
+- Fixed an issue with [`/** @luaTable */`](https://github.com/TypeScriptToLua/TypeScriptToLua/wiki/Compiler-Directives#luaTable) variable names disappearing.
+- Fixed for-in loops throwing an error when using a pre-defined variable.
+- Fixed issue with initialization order of class properties.
+
+- Simplified enum transformation code.
+
+## 0.26.0
+
+- Added support for [default exports and export equals statements](https://github.com/Microsoft/TypeScript/issues/7185#issuecomment-421632656).
+- Added support for [object spread expressions](https://mariusschulz.com/blog/object-rest-and-spread-in-typescript).
+- Added support for most common [destructuring assignments](https://basarat.gitbooks.io/typescript/content/docs/destructuring.html).
+- Added support for omitted declarations in destructuring tuples. (i.e. `const [a,,c] = foo();`)
+
+- `@noSelf` now only applies to members of the namespace with the directive, in case of namespace merging.
+- Fixed issue with isNumerType causing enum members as array indices not to recieve the `+1`.
+- Fixed string.indexOf failing in case the search string was a Lua string pattern.
+- Fixed some crashes from recursive type constraints.
+
+- Some simplification to the printing of expression statements.
+- Added new testing util methods to improve the testing process.
+
+## 0.25.0
+
+- Added support for named function assignments, i.e. `const myFunc = function x(n) { ...; return x(n - 1); }`
+
+- Made detection of string methods more robust.
+- Fixed issue regarding readonly tuple detection.
+- Fixed a nasty issue causing exponential complexity on chained properties/method expressions.
+- Improved handling of constrained generic types related to string and array detection.
+
+## 0.24.0
+
+- Returns in try/catch statements now properly return from the current function.
+- TypeScript's `globalThis` is now translated to lua's `_G`. Lualib functions were updated where relevant.
+
+- Fixed issue where string/table literals were missing parentheses and caused lua syntax errors.
+- Various improvements/refactorings across the codebase.
+- Fixed syntax error in for...of loops with empty destructuring argument.
+- Fixed issue with `do ... while` scope.
+- Fixed a bug with [@combileMembersOnly](https://github.com/TypeScriptToLua/TypeScriptToLua/wiki/Compiler-Directives#compilemembersonly) where it would ignore anything before the enum name.
+
 ## 0.23.0
 
 - Added support for OmittedExpression in array literals and array binding patterns.

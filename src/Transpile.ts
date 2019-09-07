@@ -47,8 +47,6 @@ export function transpile({
     const diagnostics: ts.Diagnostic[] = [];
     let transpiledFiles: TranspiledFile[] = [];
 
-    // TODO: Included in TS3.5
-    type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
     const updateTranspiledFile = (fileName: string, update: Omit<TranspiledFile, "fileName">) => {
         const file = transpiledFiles.find(f => f.fileName === fileName);
         if (file) {
@@ -82,7 +80,7 @@ export function transpile({
 
     const processSourceFile = (sourceFile: ts.SourceFile) => {
         try {
-            const [luaAst, lualibFeatureSet] = transformer.transformSourceFile(sourceFile);
+            const [luaAst, lualibFeatureSet] = transformer.transform(sourceFile);
             if (!options.noEmit && !options.emitDeclarationOnly) {
                 const [lua, sourceMap] = printer.print(luaAst, lualibFeatureSet, sourceFile.fileName);
                 updateTranspiledFile(sourceFile.fileName, { luaAst, lua, sourceMap });
